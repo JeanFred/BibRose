@@ -1,0 +1,169 @@
+(ccopy_reg
+_reconstructor
+p0
+(coaipmh.common
+Header
+p1
+c__builtin__
+object
+p2
+Ntp3
+Rp4
+(dp5
+S'_identifier'
+p6
+S'oai:numerique.bibliotheque.toulouse.fr:general:/ark:/74899/B315556101_TRUB1035'
+p7
+sS'_datestamp'
+p8
+cdatetime
+datetime
+p9
+(S'\x07\xda\x02\x03\x00\x00\x00\x00\x00\x00'
+p10
+tp11
+Rp12
+sS'_setspec'
+p13
+(lp14
+S'general'
+p15
+aS'general:CL19'
+p16
+aS'general:CL20'
+p17
+asS'_deleted'
+p18
+I00
+sbg0
+(coaipmh.common
+Metadata
+p19
+g2
+Ntp20
+Rp21
+(dp22
+S'_map'
+p23
+(dp24
+S'publisher'
+p25
+(lp26
+sS'description'
+p27
+(lp28
+VToulousains de Toulouse et Amis du Vieux Toulouse
+p29
+asS'language'
+p30
+(lp31
+sS'format'
+p32
+(lp33
+Vimage/jpeg
+p34
+aV13 x 18 cm
+p35
+asS'type'
+p36
+(lp37
+VPhotographies
+p38
+aVNégatifs sur plaque de verre
+p39
+aVNoir et blanc
+p40
+aVPaysages
+p41
+aVstill image
+p42
+aVphotograph
+p43
+aVimage fixe
+p44
+aVphotographie
+p45
+asS'rights'
+p46
+(lp47
+Vpublic domain
+p48
+aVdomaine public
+p49
+asS'date'
+p50
+(lp51
+V 1859-1910
+p52
+asS'relation'
+p53
+(lp54
+Vhttp://catalogues.toulouse.fr/web2/tramp2.exe/do_keyword_search/log_in?setting_key=BMT1&servers=1home&query=y001100
+p55
+aVvignette : http://numerique.bibliotheque.toulouse.fr/collect/general/index/assoc//ark:/74899/B315556101_TRUB1035.dir/B0001035_thumb.jpeg
+p56
+asS'source'
+p57
+(lp58
+VBibliothèque municipale de Toulouse, TRU B 1035
+p59
+asS'coverage'
+p60
+(lp61
+VLe Boulou (Pyrénées-Orientales)
+p62
+aVCéret (Pyrénées-Orientales ; canton)
+p63
+aVLanguedoc-Roussillon (France)
+p64
+aVTech (France ; rivière)
+p65
+asS'contributor'
+p66
+(lp67
+sS'title'
+p68
+(lp69
+V Le Boulou, cours du Tech
+p70
+asS'identifier'
+p71
+(lp72
+Vhttp://numerique.bibliotheque.toulouse.fr/ark:/74899/B315556101_TRUB1035
+p73
+aVNum. Phot. 1100
+p74
+asS'creator'
+p75
+(lp76
+VTrutat, Eugène (1840-1910). Photographe
+p77
+asS'subject'
+p78
+(lp79
+VRoute
+p80
+aVMontagne
+p81
+aVRocher
+p82
+aVPierre
+p83
+aVVégétation
+p84
+aVArbre
+p85
+aVVallée
+p86
+aVRivière
+p87
+aVRive
+p88
+aVHomme
+p89
+aVCostume masculin
+p90
+aVColline
+p91
+assbNtp92
+.
