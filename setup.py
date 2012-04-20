@@ -9,6 +9,6 @@ setup(name='BibRose',
     author       = 'Jean-Frederic',
     author_email = 'jeanfred@github',
     license      = 'Biopython License',
-    install_requires     = ['oaipmh', 'pywikipedia'],
+    install_requires     = ['pyoai', 'pywikipedia'],
     data_files=[('', ['oai_servers.cfg'])],
     )
