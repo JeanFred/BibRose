@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
-from distutils.core import setup
+from setuptools import setup
+#from distutils.core import setup
 
 setup(name='BibRose',
     version      = '0.1',
@@ -8,7 +9,7 @@ setup(name='BibRose',
     py_modules = ['OaiRecordHandling', 'OaiServerTools', 'GeneralProcess', 'CommonsFunctions'],
     author       = 'Jean-Frederic',
     author_email = 'jeanfred@github',
-    license      = 'Biopython License',
-    install_requires     = ['pyoai', 'pywikipedia'],
+    license      = 'GPL',
+    install_requires     = ['pyoai'],
     data_files=[('', ['oai_servers.cfg'])],
     )
