@@ -5,8 +5,6 @@
 """
 __authors__ = 'User:Jean-Frédéric'
 
-from OaiRecordHandling import retrieve_title
-
 
 def build_Commons_title(record):
     """Builds the file title for Wikimedia Commons for the given record
@@ -14,4 +12,4 @@ def build_Commons_title(record):
     The naming convention is: "<Title> - Fonds Trutat.jpg"
     """
     recordTitle = record[1]['title'][0]
-    return "%s - Fonds Trutat" % retrieve_title(record)
+    return "%s - Fonds Trutat" % record[1]['title'][0].strip()
