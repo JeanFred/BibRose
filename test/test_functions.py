@@ -1,8 +1,8 @@
 import unittest
 import pickle
 from os.path import join, dirname
-from OaiRecordHandling import get_file_URL, retrieve_bare_ID, is_Trutat
-
+from OaiRecordHandling import *
+from CommonsFunctions import *
 
 class TestFunctions(unittest.TestCase):
     """Testing some functions defined in OaiRecordHandling"""
