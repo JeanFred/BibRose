@@ -10,7 +10,7 @@ import pickle
 from os.path import join
 
 from OaiServerTools import *
-import commons
+import CommonsFunctions
 
 
 FIELDS = ['publisher', 'description', 'language', 'format', 'type', 'rights',
@@ -36,6 +36,11 @@ def get_file_URL(record):
     return record[1]['relation'][-1].split()[-1][:-11] + '.jpg'
 
 
+def retrieve_ARK(record):
+    """Retrieve the ARK of a given OAI record"""
+    return record[0].identifier()
+
+
 def retrieve_bare_ID(record):
     """Retrieve the bare ID of a given OAI record.
 
@@ -43,8 +48,14 @@ def retrieve_bare_ID(record):
     (eg for 'ark:/74899/B315556101_BIBLC0028' it is 'B315556101_BIBLC0028')
     as it needs to be so to be clean (eg no slashes) for file naming.
     """
-    return record[0].identifier().split('ark:/74899/')[1]
+    return retrieve_ARK(record).split('ark:/74899/')[1]
 
+def retrieve_title(record):
+    """Retrieve the title  from a given record
+    
+    TODO : chomp whitespace at start and end
+    """
+    return record[1]['title'][0]
 
 def print_metadata(record):
     """Display the metadata of a given OAI record in a not-so-crappy format.
