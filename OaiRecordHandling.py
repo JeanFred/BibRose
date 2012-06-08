@@ -7,6 +7,7 @@ __authors__ = 'User:Jean-Frédéric'
 
 
 import pickle
+import string
 from os.path import join
 
 from OaiServerTools import *
@@ -38,7 +39,8 @@ def get_file_URL(record):
 
 def retrieve_ARK(record):
     """Retrieve the ARK of a given OAI record"""
-    return record[0].identifier()
+    identifier = record[0].identifier()
+    return identifier[string.find(identifier, 'ark'):]
 
 
 def retrieve_bare_ID(record):
@@ -50,12 +52,11 @@ def retrieve_bare_ID(record):
     """
     return retrieve_ARK(record).split('ark:/74899/')[1]
 
+
 def retrieve_title(record):
-    """Retrieve the title  from a given record
-    
-    TODO : chomp whitespace at start and end
-    """
-    return record[1]['title'][0]
+    """Retrieve the title  from a given record"""
+    return record[1]['title'][0].strip()
+
 
 def print_metadata(record):
     """Display the metadata of a given OAI record in a not-so-crappy format.
