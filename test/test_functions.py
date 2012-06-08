@@ -26,3 +26,18 @@ collect/general/index/assoc//ark:/74899/B315556101_TRUB1035.dir/B0001035.jpg'
         """Test is_Trutat"""
         result = is_Trutat(self.record)
         self.assertTrue(result)
+
+    def test_retrieve_ARK(self):
+        """Test retrieve_ARK"""
+        expected_result = 'ark:/74899/B315556101_TRUB1035'
+        self.assertEquals(retrieve_ARK(self.record), expected_result)
+        
+    def test_retrieve_title(self):
+        """Test retrieve_title"""
+        expected_result = 'Le Boulou, cours du Tech'
+        self.assertEquals(retrieve_title(self.record), expected_result)
+
+    def test_build_Commons_title(self):
+        """Test build_Commons_title"""
+        expected_result = 'Le Boulou, cours du Tech - Fonds Trutat'
+        self.assertEquals(build_Commons_title(self.record), expected_result)
