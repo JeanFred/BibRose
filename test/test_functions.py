@@ -8,6 +8,7 @@ class TestFunctions(unittest.TestCase):
     """Testing some functions defined in OaiRecordHandling"""
     @classmethod
     def setUpClass(cls):
+        """Retrieve the OAI record from disk by deserialiazation"""
         record_file = join(dirname(__file__), 'data', 'B315556101_TRUB1035')
         cls.record = pickle.load(open(record_file, 'r'))
 
@@ -24,8 +25,7 @@ collect/general/index/assoc//ark:/74899/B315556101_TRUB1035.dir/B0001035.jpg'
 
     def test_is_Trutat(self):
         """Test is_Trutat"""
-        result = is_Trutat(self.record)
-        self.assertTrue(result)
+        self.assertTrue(is_Trutat(self.record))
 
     def test_retrieve_ARK(self):
         """Test retrieve_ARK"""

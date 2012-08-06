@@ -31,7 +31,7 @@ def get_record_from_ARK(ark):
 
 
 def dump_all_records_from_server(directory, oai_set):
-    """Retrieve all records from distant server and dumps it on disk
+    """Retrieve all records from distant server and dump it on disk
     """
     for record in client.listRecords(metadataPrefix='oai_dc', set=oai_set):
         try:

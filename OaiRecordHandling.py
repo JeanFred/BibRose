@@ -85,6 +85,10 @@ def is_Trutat(record):
 
 def pickle_record(record, directory):
     """Write an OAI record on disk in a given repository
+    
+    Serialise the record and name it as the bare ID, 
+    do nothing if anything goes wrong
+    (we might want to log that)
     """
     fileName = join(directory, retrieve_bare_ID(record))
     try:
