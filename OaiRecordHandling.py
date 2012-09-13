@@ -50,7 +50,10 @@ def retrieve_bare_ID(record):
     (eg for 'ark:/74899/B315556101_BIBLC0028' it is 'B315556101_BIBLC0028')
     as it needs to be so to be clean (eg no slashes) for file naming.
     """
-    return retrieve_ARK(record).split('ark:/74899/')[1]
+    bare_ID = retrieve_ARK(record).split('ark:/74899/')[1]
+    if bare_ID is "":
+        bare_ID = rec[1].getMap()['identifier'][1]
+    return bare_ID
 
 
 def retrieve_title(record):
@@ -85,8 +88,8 @@ def is_Trutat(record):
 
 def pickle_record(record, directory):
     """Write an OAI record on disk in a given repository
-    
-    Serialise the record and name it as the bare ID, 
+
+    Serialise the record and name it as the bare ID,
     do nothing if anything goes wrong
     (we might want to log that)
     """
@@ -95,7 +98,7 @@ def pickle_record(record, directory):
         with open(fileName, 'w') as f:
             pickle.dump(record, f)
     except:
-        pass
+        print "Could not pickle record %s" % (fileName)
 
 
 def retrieve_records_from_disk(directory):
