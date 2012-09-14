@@ -1,0 +1,211 @@
+(ccopy_reg
+_reconstructor
+p0
+(coaipmh.common
+Header
+p1
+c__builtin__
+object
+p2
+Ntp3
+Rp4
+(dp5
+S'_identifier'
+p6
+S'oai:numerique.bibliotheque.toulouse.fr:general:/ark:/74899/B315556101_A_JACOTTET_2_026'
+p7
+sS'_datestamp'
+p8
+cdatetime
+datetime
+p9
+(S'\x07\xda\x0c\x06\x00\x00\x00\x00\x00\x00'
+p10
+tp11
+Rp12
+sS'_setspec'
+p13
+(lp14
+S'general'
+p15
+aS'general:CL10'
+p16
+aS'general:CL20'
+p17
+aS'general:CL21'
+p18
+asS'_deleted'
+p19
+I00
+sbg0
+(coaipmh.common
+Metadata
+p20
+g2
+Ntp21
+Rp22
+(dp23
+S'_map'
+p24
+(dp25
+S'publisher'
+p26
+(lp27
+VChez Gihaut frères (Paris)
+p28
+asS'description'
+p29
+(lp30
+VFait partie de la deuxième partie du recueil "Souvenirs des Pyrénées". Titre lithographié et 51 lithographies. Sur la couverture, l'adresse du lithographe est différente de celle de la page de titre : rue du Bac, 134. Les personnages qui animent les vues ont été dessinés par A. Bayot. Le lithographe de cette deuxième partie est Auguste Bry. L'ouvrage de Jacottet est très rare quand il est complet des deux parties.
+p31
+aVVignette lithographiée au titre : "La Roche du Limaçon. Route de Cauterets"
+p32
+aVAncely, René (1876 - 1966). Possesseur
+p33
+asS'language'
+p34
+(lp35
+Vfre
+p36
+asS'format'
+p37
+(lp38
+Vimage/jpeg
+p39
+aV1 f. de pl. lithogr. ; 50 cm
+p40
+asS'type'
+p41
+(lp42
+VEstampes
+p43
+aVGravures
+p44
+aVLithographies 
+p45
+aVNoir et blanc
+p46
+aVstill image
+p47
+aVimage fixe
+p48
+asS'rights'
+p49
+(lp50
+Vpublic domain
+p51
+aVdomaine public
+p52
+asS'date'
+p53
+(lp54
+V1841-1842
+p55
+asS'relation'
+p56
+(lp57
+Vhttp://catalogues.toulouse.fr/web2/tramp2.exe/do_keyword_search/log_in?setting_key=BMT1&servers=1home&query=p001107
+p58
+aVvignette : http://numerique.bibliotheque.toulouse.fr/collect/general/index/assoc//ark:/74899/B315556101_A_JACOTTET_2_026.dir/B315556101_A_JACOTTET_2_026_thumb.jpeg
+p59
+asS'source'
+p60
+(lp61
+VBibliothèque municipale de Toulouse, A-JACOTTET (2-25)
+p62
+asS'coverage'
+p63
+(lp64
+VEaux-Bonnes (Pyrénées-Atlantiques)
+p65
+aVPyrénées-Atlantiques (France)
+p66
+asS'contributor'
+p67
+(lp68
+VBayot, Adolphe Jean Baptiste (1810-18..). Illustrateur
+p69
+aVBry, Auguste. Lithographe
+p70
+aVGihaut, Jean. Editeur
+p71
+aVGihaut, Michel-Ange (1800-1871). Editeur
+p72
+asS'title'
+p73
+(lp74
+VEntrée des Eaux Bonnes (Basses Pyrénées)
+p75
+asS'identifier'
+p76
+(lp77
+Vhttp://numerique.bibliotheque.toulouse.fr/ark:/74899/B315556101_A_JACOTTET_2_026
+p78
+aVNum. Pyr. 184 (25)
+p79
+asS'creator'
+p80
+(lp81
+VJacottet, Louis-Julien (1806-1880)
+p82
+asS'subject'
+p83
+(lp84
+VArbre
+p85
+aVBlouse
+p86
+aVCalèche
+p87
+aVCapulet
+p88
+aVCavalier
+p89
+aVChapeau
+p90
+aVCharrette
+p91
+aVChâle
+p92
+aVCoiffe
+p93
+aVConversation
+p94
+aVCostume traditionnel
+p95
+aVFemme
+p96
+aVFillette
+p97
+aVFoule
+p98
+aVHomme
+p99
+aVMaison
+p100
+aVMontagne
+p101
+aVMontagnes -- France -- Pyrénées-Atlantiques (France) -- 19e siècle
+p102
+aVMontée
+p103
+aVMuret
+p104
+aVRedingote
+p105
+aVRobe
+p106
+aVRue
+p107
+aVRéverbère
+p108
+aVStations climatiques, thermales, etc. -- France -- Eaux-Bonnes (Pyrénées-Atlantiques) -- 19e siècle
+p109
+aVTablier
+p110
+aVTransport à pied
+p111
+aVVille
+p112
+assbNtp113
+.
