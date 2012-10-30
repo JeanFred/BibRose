@@ -8,7 +8,7 @@ __authors__ = 'User:Jean-Frédéric'
 
 import pickle
 import string
-from os.path import join
+import os
 
 from OaiServerTools import *
 import CommonsFunctions
@@ -52,7 +52,7 @@ def retrieve_bare_ID(record):
     """
     bare_ID = retrieve_ARK(record).split('ark:/74899/')[1]
     if bare_ID is "":
-        bare_ID = rec[1].getMap()['identifier'][1]
+        bare_ID = record[1].getMap()['identifier'][1]
     return bare_ID
 
 
@@ -94,6 +94,7 @@ def pickle_record(record, directory):
     (we might want to log that)
     """
     fileName = join(directory, retrieve_bare_ID(record))
+    print "  Try pickling %s" % fileName
     try:
         with open(fileName, 'w') as f:
             pickle.dump(record, f)
@@ -107,10 +108,8 @@ def retrieve_records_from_disk(directory):
     If anything bad happens during the reading of the File
     (file reading error, impossible to pickle), file is ignored.
     """
-    records = []
-    for fileName in [join(directory, x) for x in listdir(directory)]:
+    for fileName in [os.path.join(directory, x) for x in os.listdir(directory)]:
         try:
-            records.append(pickle.load(open(fileName, 'r')))
+            yield pickle.load(open(fileName, 'r'))
         except:
             pass
-    return records
