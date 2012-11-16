@@ -67,3 +67,7 @@ class TestFunctions(unittest.TestCase):
                            '', '[[Category:É]]\n[[Category:È]]']
         self.assertListEqual(expected_result,
                              map(make_categories, data))
+
+
+if __name__ == "__main__":
+    unittest.main()
