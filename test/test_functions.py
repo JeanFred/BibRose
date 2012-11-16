@@ -58,3 +58,12 @@ class TestFunctions(unittest.TestCase):
         u'Entr\xe9e des Eaux Bonnes (Basses Pyr\xe9n\xe9es) - Fonds Trutat']
         self.assertListEqual(expected_result,
                              map(build_Commons_title, self.records))
+
+    def test_make_categories(self):
+        """Test make_categories"""
+        data = [['A'], ['A', 'B'], ['A', 'B', 'C'], [], ['É', 'È']]
+        expected_result = ['[[Category:A]]', '[[Category:A]]\n[[Category:B]]',
+                           '[[Category:A]]\n[[Category:B]]\n[[Category:C]]',
+                           '', '[[Category:É]]\n[[Category:È]]']
+        self.assertListEqual(expected_result,
+                             map(make_categories, data))
