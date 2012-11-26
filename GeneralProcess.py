@@ -7,41 +7,116 @@ __authors__ = 'User:Jean-Frédéric'
 
 
 from OaiRecordHandling import *
+from MetadataCrunching import *
+from CommonsFunctions import *
+from InputOutput import *
 import codecs
 import os
 
+
+alignment_config = ConfigParser.SafeConfigParser()
+alignment_config.read('metadata_templates.cfg')
+alignment_config_values = dict(alignment_config.items('Ancely'))
 
 FIELDS = ['publisher', 'description', 'language', 'format', 'type', 'rights',
           'date', 'relation', 'source', 'coverage', 'contributor', 'title',
           'identifier', 'creator', 'subject']
 
-def process_records1(records):
-    """Process the records
 
-    Kind of an ad-hoc, all purpose method.
+def get_alignment(record_contents, field, alignments):
+    """Retrieve the alignment for a given record contents.
+
+    An alignment processing method.
+    Concatenates the various values retrieved through the alignment
+
+    Args
+        record_contents
+            A collection of contents of a record
+
+        field
+            The Dublin Core field to retrieve from
+
+        alignments
+            The master alignment data structure
+
+    Returns
+        A tuple (tag, categories)
+    """
+    all_value = ""
+    all_categories = []
+    for content in record_contents:
+        content = content.strip()
+        (value, categories) = alignments[field][content]
+        all_value += value
+        all_categories.extend(categories)
+    return (all_value, all_categories)
+
+
+def join_all(record_contents, field, alignments=None):
+    """Join all 
+
+    An alignment processing method.
+    Concatenates the various values for retrieved through the alignment
+    """
+    return ("\n".join(record_contents), [])
+
+
+def ignore_field(record_contents, field, alignments=None):
+    return ("", [])
+
+
+#def process_relation(record_contents, field, alignments=None):
+    #return (record_contents[0], [])
+
+
+FIELDS_PRE_PROCESSING_METHODS = {
+    'publisher' : join_all,
+    'description' : join_all,
+    'format' : get_alignment,
+    'language' : ignore_field,
+    'type' : get_alignment,
+    'rights' : ignore_field,
+    'date' : get_alignment,
+    'relation'  : ignore_field,
+    'source' : join_all,
+    'coverage' : get_alignment,
+    'contributor' : get_alignment,
+    'title' : join_all,
+    'identifier': join_all,
+    'subject' : get_alignment,
+    'creator' : get_alignment
+}
+
+
+def retrieve_unique_metadata_values(records):
+    """Retrieve all metadata values (per field)
+
+    - Iterate through the given records
+    - For each record, for each field, add the metadata values to a set
+    - Write the set on disk, in text format
     """
     print "%s records" % len(records)
-    trutatRecords = filter(is_Trutat, records)
-    print "%s records left after filtering" % len(trutatRecords)
     # Initialises the sets
+    sets = dict()
     for field in FIELDS:
-        exec("%s_set = set()" % (field))
-    #Iterates through the records
-    for record in trutatRecords:
+        sets[field] = set()
+    # Iterates through the records
+    for record in records:
         for field in FIELDS:
             data = record[1][field]
-            # this is the ugly way, will beautify later
-            exec("%s_set.update(data)" % field)
+            sets[field].update(data)
     for field in FIELDS:
         fileName = join('metadata', '%s_list.txt' % field)
-        mySet = eval("%s_set" % field)
-        write_set_to_disk(mySet, fileName)
+        write_set_to_disk(sets[field], fileName)
 
 
-def process_records2(records):
-    """Process the records, differently
+def retrieve_metadata_from_records_for_alignment(records):
+    """Retrieve the metadata from the records and write them on disk
 
-    Kind of an ad-hoc, all purpose method.
+    - Iterate through the given records
+    - For each record, for each field, store the metadata values
+    - Write the result on disk, in both CSV and wiki format
+      (ordered by descending number of occurences)
     """
     # Initialises the dictionaries
     totalDict = {}
@@ -64,23 +139,41 @@ def process_records2(records):
         print k, v
 
 
-def write_dict_as_wiki(aDict, name, directory):
-    with codecs.open(os.path.join(directory, name), 'w', 'utf-8') as wikipage:
-        wikipage.write("{|\nItem | Count | Tag | Categories")               
-        items = aDict.items()
-        items.sort(key=lambda x: x[1], reverse=True)
-        for item in items:
-            #table_line = "\n| %s | %s | " % (item)
-            table_line = """
-{{User:Mk-II/AncelyRow
-|item       =%s
-|count      =%s
-|value      =
-|categories =
-}}""" % item
-        
-            wikipage.write(unicode(table_line))
-        wikipage.write("\n|}")
+def process_records3(records, alignments):
+    """Process the records, differently
+    """
+    fields = FIELDS
+    recordsbis = list(records)[0:5]
+    print "Processing %s records" % len(recordsbis)
+    for record in recordsbis:
+        print "== Processing record"
+        record_metadata = dict()
+        record_categories = []
+        for field in fields:
+            record_metadata_dict = dict()
+            record_contents = record[1][field]
+            processing_method = FIELDS_PRE_PROCESSING_METHODS.get(field, None)
+            if processing_method:
+                #print "==== Processing field %s" % field
+                #print processing_method
+                (value, categories) = processing_method(record_contents, field, alignments)
+                #print value
+                #print categories
+                record_metadata[field] = value
+                record_categories.extend(categories)
+            else:
+                print "==== Ignored field %s ====" % field
+                print "\n".join(record_contents)
+                print "=========================="
+            #contents = [u'SecondItem']
+            #if field in alignment_fields:
+                #for content in record_contents:
+
+            #else:  # We do not need to align anything for these fields
+                #pass
+        print textlib.glue_template_and_params(('User:Mk-II/Ancely', record_metadata))
+        print make_categories(record_categories)
+    pass
 
 
 def updateCountDict(aDict, items):
@@ -91,39 +184,36 @@ def updateCountDict(aDict, items):
             aDict[item] = 1
 
 
-def write_set_to_disk(mySet, fileName):
-    """Write a given set on disk
-    """
-    print "Writing set to %s" % fileName
-    with codecs.open(fileName, 'w', 'utf-8') as f:
-        f.write("\n".join(mySet))
 
+def retrieve_metadata_alignments_and_dump_to_file(fileName):
+    #alignment_fields = ['publisher', 'language', 'format', 'type', 'rights',
+              #'date', 'coverage', 'contributor', 'creator', 'subject']
+    alignment_fields = FIELDS
+    alignments = retrieve_metadata_alignments(alignment_fields, alignment_config_values)
+    try:
+        with open(fileName, 'w') as f:
+            pickle.dump(alignments, f)
+    except:
+        print "Could not pickle aligments"
 
-def write_dict_as_csv(myDict, name, directory):
-    """Write a given dictionary on disk as CSV
-    """
-    print "Writing dict as %s in %s" % (name, directory)
-    items = myDict.items()
-    items.sort(key=lambda x: x[1], reverse=True)
-    def unicode_join_tuple(item):
-        return "|".join(map(unicode, item))
-    with codecs.open(os.path.join(directory, name + '.csv'), 'w', 'utf-8') as f:
-        f.write("\n".join(map(unicode_join_tuple, items)))
-
-
+        
 def main():
     """Entry point
     """
     directory = 'ancely'
     #dump_all_records_from_server(directory, 'general:CL21')
+    #retrieve_metadata_alignments_and_dump_to_file('ancely_alignment')
     #arks = ['ark:/74899/B315556101_CP0004_09_002',
     #        'ark:/74899/B315556101_CP0004_09_009',
     #        'ark:/74899/B315556101_CP0004_09_014']
     print "Retrieving records from disk..."
     records = retrieve_records_from_disk('ancely')
     print "...done"
-    print "Processing records..."
-    process_records2(records)
+    print "Retrieving alignments from disk..."
+    alignments = pickle.load(open('ancely_alignment', 'r'))
+    print "...done"
+    #print "Processing records..."
+    process_records3(records, alignments)
     print "...done"    
     ##records = map(get_record_from_ARK,arks)
     ##dump_all_records_from_server("records")
