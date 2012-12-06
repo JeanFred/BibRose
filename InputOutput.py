@@ -3,6 +3,9 @@
 
 """Some Input/Output methods"""
 
+import codecs
+import os
+
 
 def write_set_to_disk(mySet, fileName):
     """Write a given set on disk"""
