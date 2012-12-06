@@ -6,7 +6,7 @@ from setuptools import setup
 setup(name='BibRose',
     version      = '0.1',
     description  = '',
-    py_modules = ['OaiRecordHandling', 'OaiServerTools', 'GeneralProcess', 'CommonsFunctions'],
+    py_modules = ['OaiRecordHandling', 'OaiServerTools', 'GeneralProcess', 'CommonsFunctions', 'MetadataCrunching'],
     author       = 'Jean-Frederic',
     author_email = 'jeanfred@github',
     license      = 'GPL',

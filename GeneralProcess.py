@@ -7,7 +7,7 @@ __authors__ = 'User:Jean-Frédéric'
 
 
 from OaiRecordHandling import *
-from MetadataCrunching import *
+import MetadataCrunching
 from CommonsFunctions import *
 from InputOutput import *
 import codecs
@@ -133,7 +133,7 @@ def retrieve_metadata_from_records_for_alignment(records):
     for field in FIELDS:
         fileName = os.path.join('metadata', 'dict',  '%s_dict.csv' % field)
         write_dict_as_csv(master_dict[field], field, 'csv')
-        write_dict_as_wiki(master_dict[field], field, 'wiki')
+        MetadataCrunching.write_dict_as_wiki(master_dict[field], field, 'wiki', None)
 
     for k, v in totalDict.items():
         print k, v
@@ -189,7 +189,7 @@ def retrieve_metadata_alignments_and_dump_to_file(fileName):
     #alignment_fields = ['publisher', 'language', 'format', 'type', 'rights',
               #'date', 'coverage', 'contributor', 'creator', 'subject']
     alignment_fields = FIELDS
-    alignments = retrieve_metadata_alignments(alignment_fields, alignment_config_values)
+    alignments = MetadataCrunching.retrieve_metadata_alignments(alignment_fields, alignment_config_values)
     try:
         with open(fileName, 'w') as f:
             pickle.dump(alignments, f)
@@ -209,12 +209,13 @@ def main():
     print "Retrieving records from disk..."
     records = retrieve_records_from_disk('ancely')
     print "...done"
-    print "Retrieving alignments from disk..."
-    alignments = pickle.load(open('ancely_alignment', 'r'))
-    print "...done"
+    retrieve_metadata_from_records_for_alignment(records)
+    #print "Retrieving alignments from disk..."
+    #alignments = pickle.load(open('ancely_alignment', 'r'))
+    #print "...done"
     #print "Processing records..."
-    process_records3(records, alignments)
-    print "...done"    
+    #process_records3(records, alignments)
+    #print "...done"    
     ##records = map(get_record_from_ARK,arks)
     ##dump_all_records_from_server("records")
 
