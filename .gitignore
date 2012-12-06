@@ -1,6 +1,10 @@
 *.*~
 *.py[cod]
 
+# Various
+*.tar
+*.txt
+
 # C extensions
 *.so
 
