@@ -12,6 +12,7 @@ from CommonsFunctions import *
 from InputOutput import *
 import codecs
 import os
+from collections import Counter
 
 
 alignment_config = ConfigParser.SafeConfigParser()
@@ -118,26 +119,27 @@ def retrieve_metadata_from_records_for_alignment(records):
     - Write the result on disk, in both CSV and wiki format
       (ordered by descending number of occurences)
     """
-    # Initialises the dictionaries
-    totalDict = {}
-    master_dict = {}
+    # Initialises the Counters
+    field_counter = Counter()
+    field_values_counters_dict = {}
     for field in FIELDS:
-        master_dict[field] = {}
-        totalDict[field] = 0
+        field_values_counters_dict[field] = Counter()
+
     #Iterates through the records
     for record in records:
         for field in FIELDS:
-            updateCountDict(master_dict[field], record[1][field])
-            totalDict[field] += len(record[1][field])
+            for field_contents in record[1][field]:
+                field_values_counters_dict[field][field_contents] += 1
+            field_counter[field] += len(record[1][field])
+    print field_values_counters_dict
 
     for field in FIELDS:
         fileName = os.path.join('metadata', 'dict',  '%s_dict.csv' % field)
-        write_dict_as_csv(master_dict[field], field, 'csv')
-        MetadataCrunching.write_dict_as_wiki(master_dict[field],
+        write_dict_as_csv(field_values_counters_dict[field], field, 'csv')
+        MetadataCrunching.write_dict_as_wiki(field_values_counters_dict[field],
                                              field, 'wiki',
                                              alignment_config_items)
-
-    for k, v in totalDict.items():
+    for k, v in field_counter.items():
         print k, v
 
 
@@ -176,15 +178,6 @@ def process_records3(records, alignments):
         print textlib.glue_template_and_params(('User:Mk-II/Ancely', record_metadata))
         print make_categories(record_categories)
     pass
-
-
-def updateCountDict(aDict, items):
-    for item in items:
-        if item in aDict:
-            aDict[item] += 1
-        else:
-            aDict[item] = 1
-
 
 
 def retrieve_metadata_alignments_and_dump_to_file(fileName):
