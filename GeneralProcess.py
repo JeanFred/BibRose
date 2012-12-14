@@ -15,15 +15,6 @@ import os
 from collections import Counter
 
 
-alignment_config = ConfigParser.SafeConfigParser()
-alignment_config.read('metadata_templates.cfg')
-alignment_config_items = dict(alignment_config.items('Ancely'))
-
-FIELDS = ['publisher', 'description', 'language', 'format', 'type', 'rights',
-          'date', 'relation', 'source', 'coverage', 'contributor', 'title',
-          'identifier', 'creator', 'subject']
-
-
 def get_alignment(record_contents, field, alignments):
     """Retrieve the alignment for a given record contents.
 
@@ -54,7 +45,7 @@ def get_alignment(record_contents, field, alignments):
 
 
 def join_all(record_contents, field, alignments=None):
-    """Join all 
+    """Join all
 
     An alignment processing method.
     Concatenates the various values for retrieved through the alignment
@@ -89,95 +80,111 @@ FIELDS_PRE_PROCESSING_METHODS = {
 }
 
 
-def retrieve_unique_metadata_values(records):
-    """Retrieve all metadata values (per field)
+class RecordsProcessing:
 
-    - Iterate through the given records
-    - For each record, for each field, add the metadata values to a set
-    - Write the set on disk, in text format
-    """
-    print "%s records" % len(records)
-    # Initialises the sets
-    sets = dict()
-    for field in FIELDS:
-        sets[field] = set()
-    # Iterates through the records
-    for record in records:
-        for field in FIELDS:
-            data = record[1][field]
-            sets[field].update(data)
-    for field in FIELDS:
-        fileName = join('metadata', '%s_list.txt' % field)
-        write_set_to_disk(sets[field], fileName)
+    """Processing a collection of Records in various ways"""
 
+    def __init__(self):
+        pass
+        self.alignment_config = ConfigParser.SafeConfigParser()
+        self.alignment_config.read('metadata_templates.cfg')
+        self.alignment_config_items = dict(self.alignment_config.items('Ancely'))
 
-def retrieve_metadata_from_records_for_alignment(records):
-    """Retrieve the metadata from the records and write them on disk
+        self.FIELDS = ['publisher', 'description', 'language', 'format',
+                       'type', 'rights', 'date', 'relation', 'source',
+                       'coverage', 'contributor', 'title', 'identifier',
+                       'creator', 'subject']
+        self.record = None
 
-    - Iterate through the given records
-    - For each record, for each field, store the metadata values
-    - Write the result on disk, in both CSV and wiki format
-      (ordered by descending number of occurences)
-    """
-    # Initialises the Counters
-    field_counter = Counter()
-    field_values_counters_dict = {}
-    for field in FIELDS:
-        field_values_counters_dict[field] = Counter()
+        
+    def retrieve_unique_metadata_values(self):
+        """Retrieve all metadata values (per field)
 
-    #Iterates through the records
-    for record in records:
-        for field in FIELDS:
-            for field_contents in record[1][field]:
-                field_values_counters_dict[field][field_contents] += 1
-            field_counter[field] += len(record[1][field])
-    print field_values_counters_dict
-
-    for field in FIELDS:
-        fileName = os.path.join('metadata', 'dict',  '%s_dict.csv' % field)
-        write_dict_as_csv(field_values_counters_dict[field], field, 'csv')
-        MetadataCrunching.write_dict_as_wiki(field_values_counters_dict[field],
-                                             field, 'wiki',
-                                             alignment_config_items)
-    for k, v in field_counter.items():
-        print k, v
+        - Iterate through the given records
+        - For each record, for each field, add the metadata values to a set
+        - Write the set on disk, in text format
+        """
+        print "%s records" % len(self.records)
+        # Initialises the sets
+        sets = dict()
+        for field in self.FIELDS:
+            sets[field] = set()
+        # Iterates through the records
+        for record in self.records:
+            for field in self.FIELDS:
+                data = record[1][field]
+                sets[field].update(data)
+        for field in self.FIELDS:
+            fileName = join('metadata', '%s_list.txt' % field)
+            write_set_to_disk(sets[field], fileName)
 
 
-def process_records3(records, alignments):
-    """Process the records, differently
-    """
-    fields = FIELDS
-    recordsbis = list(records)[0:5]
-    print "Processing %s records" % len(recordsbis)
-    for record in recordsbis:
-        print "== Processing record"
-        record_metadata = dict()
-        record_categories = []
-        for field in fields:
-            record_metadata_dict = dict()
-            record_contents = record[1][field]
-            processing_method = FIELDS_PRE_PROCESSING_METHODS.get(field, None)
-            if processing_method:
-                #print "==== Processing field %s" % field
-                #print processing_method
-                (value, categories) = processing_method(record_contents, field, alignments)
-                #print value
-                #print categories
-                record_metadata[field] = value
-                record_categories.extend(categories)
-            else:
-                print "==== Ignored field %s ====" % field
-                print "\n".join(record_contents)
-                print "=========================="
-            #contents = [u'SecondItem']
-            #if field in alignment_fields:
-                #for content in record_contents:
+    def retrieve_metadata_from_records_for_alignment(self):
+        """Retrieve the metadata from the records and write them on disk
 
-            #else:  # We do not need to align anything for these fields
-                #pass
-        print textlib.glue_template_and_params(('User:Mk-II/Ancely', record_metadata))
-        print make_categories(record_categories)
-    pass
+        - Iterate through the given records
+        - For each record, for each field, store the metadata values
+        - Write the result on disk, in both CSV and wiki format
+        (ordered by descending number of occurences)
+        """
+        # Initialises the Counters
+        field_counter = Counter()
+        field_values_counters_dict = {}
+        for field in self.FIELDS:
+            field_values_counters_dict[field] = Counter()
+
+        #Iterates through the records
+        for record in self.records:
+            for field in self.FIELDS:
+                for field_contents in record[1][field]:
+                    field_values_counters_dict[field][field_contents] += 1
+                field_counter[field] += len(record[1][field])
+        print field_values_counters_dict
+
+        for field in self.FIELDS:
+            fileName = os.path.join('metadata', 'dict',  '%s_dict.csv' % field)
+            write_dict_as_csv(field_values_counters_dict[field], field, 'csv')
+            MetadataCrunching.write_dict_as_wiki(field_values_counters_dict[field],
+                                                field, 'wiki',
+                                                self.alignment_config_items)
+        for k, v in field_counter.items():
+            print k, v
+
+    def process_records3(self, alignments):
+        """Process the records, differently
+        """
+        fields = self.FIELDS
+        recordsbis = list(self.records)[0:5]
+        print "Processing %s records" % len(recordsbis)
+        for record in recordsbis:
+            print "== Processing record"
+            record_metadata = dict()
+            record_categories = []
+            for field in fields:
+                record_metadata_dict = dict()
+                record_contents = record[1][field]
+                processing_method = FIELDS_PRE_PROCESSING_METHODS.get(field, None)
+                if processing_method:
+                    #print "==== Processing field %s" % field
+                    #print processing_method
+                    (value, categories) = processing_method(record_contents, field, alignments)
+                    #print value
+                    #print categories
+                    record_metadata[field] = value
+                    record_categories.extend(categories)
+                else:
+                    print "==== Ignored field %s ====" % field
+                    print "\n".join(record_contents)
+                    print "=========================="
+                #contents = [u'SecondItem']
+                #if field in alignment_fields:
+                    #for content in record_contents:
+
+                #else:  # We do not need to align anything for these fields
+                    #pass
+            print textlib.glue_template_and_params(('User:Mk-II/Ancely', record_metadata))
+            print make_categories(record_categories)
+        pass
 
 
 def retrieve_metadata_alignments_and_dump_to_file(fileName):
@@ -201,10 +208,11 @@ def main():
     #arks = ['ark:/74899/B315556101_CP0004_09_002',
     #        'ark:/74899/B315556101_CP0004_09_009',
     #        'ark:/74899/B315556101_CP0004_09_014']
+    processor = RecordsProcessing()
     print "Retrieving records from disk..."
-    records = retrieve_records_from_disk('ancely')
+    processor.  records = retrieve_records_from_disk('ancely')
     print "...done"
-    retrieve_metadata_from_records_for_alignment(records)
+    processor.retrieve_metadata_from_records_for_alignment()
     #print "Retrieving alignments from disk..."
     #alignments = pickle.load(open('ancely_alignment', 'r'))
     #print "...done"
