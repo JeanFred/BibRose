@@ -57,18 +57,10 @@ def write_dict_as_wiki(aDict, name, directory, alignment_config_items):
         items = aDict.items()
         items.sort(key=lambda x: x[1], reverse=True)
         for item in items:
-            #table_line = "\n| %s | %s | " % (item)
-            table_line = textlib.glue_template_and_params(
-                                alignment_config_items['alignment_template'],
-                                record_metadata)
-            table_line = """
-{{%s
-|item       =%s
-|count      =%s
-|value      =
-|categories =
-}}""" % (alignment_config_items['alignment_template'], item)
-
+            values = (alignment_config_items['alignment_template'],
+                      {'item': item[0], 'count': item[1],
+                      'value': None, 'categories': None} )
+            table_line = textlib.glue_template_and_params(values)
             wikipage.write(unicode(table_line))
         wikipage.write("\n|}")
 
