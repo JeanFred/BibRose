@@ -16,7 +16,7 @@ import os
 
 alignment_config = ConfigParser.SafeConfigParser()
 alignment_config.read('metadata_templates.cfg')
-alignment_config_values = dict(alignment_config.items('Ancely'))
+alignment_config_items = dict(alignment_config.items('Ancely'))
 
 FIELDS = ['publisher', 'description', 'language', 'format', 'type', 'rights',
           'date', 'relation', 'source', 'coverage', 'contributor', 'title',
@@ -133,7 +133,9 @@ def retrieve_metadata_from_records_for_alignment(records):
     for field in FIELDS:
         fileName = os.path.join('metadata', 'dict',  '%s_dict.csv' % field)
         write_dict_as_csv(master_dict[field], field, 'csv')
-        MetadataCrunching.write_dict_as_wiki(master_dict[field], field, 'wiki', None)
+        MetadataCrunching.write_dict_as_wiki(master_dict[field],
+                                             field, 'wiki',
+                                             alignment_config_items)
 
     for k, v in totalDict.items():
         print k, v
@@ -189,7 +191,7 @@ def retrieve_metadata_alignments_and_dump_to_file(fileName):
     #alignment_fields = ['publisher', 'language', 'format', 'type', 'rights',
               #'date', 'coverage', 'contributor', 'creator', 'subject']
     alignment_fields = FIELDS
-    alignments = MetadataCrunching.retrieve_metadata_alignments(alignment_fields, alignment_config_values)
+    alignments = MetadataCrunching.retrieve_metadata_alignments(alignment_fields, alignment_config_items)
     try:
         with open(fileName, 'w') as f:
             pickle.dump(alignments, f)
