@@ -59,8 +59,8 @@ def write_dict_as_wiki(aDict, name, directory, alignment_config_items):
         for item in items:
             values = (alignment_config_items['alignment_template'],
                       {'item': item[0], 'count': item[1],
-                      'value': None, 'categories': None} )
-            table_line = textlib.glue_template_and_params(values)
+                      'value': "", 'categories': ""} )
+            table_line = '\n' + textlib.glue_template_and_params(values)
             wikipage.write(unicode(table_line))
         wikipage.write("\n|}")
 
