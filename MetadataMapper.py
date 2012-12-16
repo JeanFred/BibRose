@@ -4,7 +4,6 @@
 
 __authors__ = 'User:Jean-Frédéric'
 
-import sys
 import os
 import ConfigParser
 import codecs

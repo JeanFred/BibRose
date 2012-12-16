@@ -4,17 +4,17 @@
 """Processing some records, metadata and stuff."""
 __authors__ = 'User:Jean-Frédéric'
 
-import codecs
 import os
+import sys
+import pickle
 from collections import Counter
-from OaiRecordHandling import *
-import MetadataCrunching
-from MetadataMapper import MetadataMapper
-from CommonsFunctions import *
-from InputOutput import *
 sys.path.append('../pywikipedia')
 import wikipedia as pywikibot
 import pywikibot.textlib as textlib
+from OaiRecord import OaiRecord
+from MetadataMapper import MetadataMapper
+from CommonsFunctions import *
+from InputOutput import *
 
 
 class RecordsProcessing:
