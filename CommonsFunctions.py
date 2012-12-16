@@ -11,8 +11,7 @@ def build_Commons_title(record):
 
     The naming convention is: "<Title> - Fonds Trutat.jpg"
     """
-    recordTitle = record[1]['title'][0]
-    return "%s - Fonds Trutat" % record[1]['title'][0].strip()
+    return "%s - Fonds Trutat" % record.metadata['title'][0].strip()
 
 
 def make_categories(categories):

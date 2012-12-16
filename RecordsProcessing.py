@@ -26,7 +26,7 @@ class RecordsProcessing:
                        'type', 'rights', 'date', 'relation', 'source',
                        'coverage', 'contributor', 'title', 'identifier',
                        'creator', 'subject']
-        self.records = None
+        self.records = []
         self.metadata_mapper = None
 
     def retrieve_unique_metadata_values(self):
@@ -45,7 +45,7 @@ class RecordsProcessing:
         # Iterates through the records
         for record in self.records:
             for field in self.FIELDS:
-                data = record[1][field]
+                data = record.metadata[field]
                 sets[field].update(data)
         for field in self.FIELDS:
             fileName = join('metadata', '%s_list.txt' % field)
@@ -69,9 +69,9 @@ class RecordsProcessing:
         #Iterates through the records
         for record in self.records:
             for field in self.FIELDS:
-                for field_contents in record[1][field]:
+                for field_contents in record.metadata[field]:
                     field_values_counters_dict[field][field_contents] += 1
-                field_counter[field] += len(record[1][field])
+                field_counter[field] += len(record.metadata[field])
 
         for field in self.FIELDS:
             fileName = os.path.join('metadata', 'dict',  '%s_dict.csv' % field)
@@ -86,7 +86,7 @@ class RecordsProcessing:
     def loop_over_and_map(self):
         """Loop over the record collection and proceeds to the mapping."""
         fields = self.FIELDS
-        recordsbis = list(self.records)[0:5]
+        recordsbis = list(self.records)[5:50]
         print "Processing %s records" % len(recordsbis)
         for record in recordsbis:
             print "== Processing record"
@@ -94,7 +94,7 @@ class RecordsProcessing:
             record_categories = []
             for field in fields:
                 record_metadata_dict = dict()
-                record_contents = record[1][field]
+                record_contents = record.metadata[field]
                 processing_method = self.metadata_mapper.get_processing_method(field)
                 if processing_method:
                     #print "==== Processing field %s" % field
@@ -125,7 +125,7 @@ class RecordsProcessing:
         """
         for fileName in [os.path.join(directory, x) for x in os.listdir(directory)]:
             try:
-                yield pickle.load(open(fileName, 'r'))
+                yield OaiRecord(pickle.load(open(fileName, 'r')))
             except:
                 pass
 

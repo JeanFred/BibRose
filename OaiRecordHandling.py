@@ -18,88 +18,94 @@ FIELDS = ['publisher', 'description', 'language', 'format', 'type', 'rights',
           'date', 'relation', 'source', 'coverage', 'contributor', 'title',
           'identifier', 'creator', 'subject']
 
+class OaiRecord():
 
-def get_file_URL(record):
-    """Build the full resolution file URL for the given record.
+    def __init__(self, (header, metadata, about)):
+        self.header = header
+        self.metadata = metadata
+        self.about = about
 
-    As this URL is not given in the OAI record,
-    it is built from the thumbnail ('vignette') URL,
-    assuming this always follows the same pattern.
+    def get_file_URL(self):
+        """Build the full resolution file URL for the OaiRecord.
 
-    - Take the last relation Dublin Core element
-    - Take the last split() to get rid of the "vignette:" etc.
-    - Cut the eleven last characters ("_thumb.jpeg")
-    - Append the file extension '.jpg'
-      (Oddly, Trutat files use uppercase 'JPG' but Ancely use lowercase 'jpg')
+        As this URL is not given in the OAI record,
+        it is built from the thumbnail ('vignette') URL,
+        assuming this always follows the same pattern.
 
-    (Works in 100% of the 4 attempts)
+        - Take the last relation Dublin Core element
+        - Take the last split() to get rid of the "vignette:" etc.
+        - Cut the eleven last characters ("_thumb.jpeg")
+        - Append the file extension '.jpg'
+        (Oddly, Trutat files use uppercase 'JPG' but Ancely use lowercase 'jpg')
 
-    """
-    return record[1]['relation'][-1].split()[-1][:-11] + '.jpg'
+        (Works in 100% of the 4 attempts)
 
-
-def retrieve_ARK(record):
-    """Retrieve the ARK of a given OAI record."""
-    identifier = record[0].identifier()
-    return identifier[string.find(identifier, 'ark'):]
-
-
-def retrieve_bare_ID(record):
-    """Retrieve the bare ID of a given OAI record.
-
-    A bare ID is defined as the last part of the ARK identifier
-    (eg for 'ark:/74899/B315556101_BIBLC0028' it is 'B315556101_BIBLC0028')
-    as it needs to be so to be clean (eg no slashes) for file naming.
-
-    """
-    bare_ID = retrieve_ARK(record).split('ark:/74899/')[1]
-    if bare_ID is "":
-        bare_ID = record[1].getMap()['identifier'][1]
-    return bare_ID
+        """
+        return self.metadata['relation'][-1].split()[-1][:-11] + '.jpg'
 
 
-def retrieve_title(record):
-    """Retrieve the title  from a given record."""
-    return record[1]['title'][0].strip()
+    def retrieve_ARK(self):
+        """Retrieve the ARK of a given OAI record."""
+        identifier = self.header.identifier()
+        return identifier[string.find(identifier, 'ark'):]
 
 
-def print_metadata(record):
-    """Display the metadata of a given record in a not-so-crappy format."""
-    for item in ["%s %s" % (k, v) for k, v in record[1].getMap().items()]:
-        print item
+    def retrieve_bare_ID(self):
+        """Retrieve the bare ID of a given OAI record.
+
+        A bare ID is defined as the last part of the ARK identifier
+        (eg for 'ark:/74899/B315556101_BIBLC0028' it is 'B315556101_BIBLC0028')
+        as it needs to be so to be clean (eg no slashes) for file naming.
+
+        """
+        bare_ID = self.retrieve_ARK().split('ark:/74899/')[1]
+        if bare_ID is "":
+            bare_ID = self.metadata.getMap()['identifier'][1]
+        return bare_ID
 
 
-def print_dict(element):
-    """Display the elements of a dictionary."""
-    print "\n".join(["%s %s" % (k, v) for k, v in element.__dict__.items()])
+    def retrieve_title(self):
+        """Retrieve the title."""
+        return self.metadata['title'][0].strip()
 
 
-def is_Trutat(record):
-    """Indicate whether a record is from the Trutat set.
+    def print_metadata(self):
+        """Display the metadata of the record in a not-so-crappy format."""
+        for item in ["%s %s" % (k, v) for k, v in self.metadata.getMap().items()]:
+            print item
 
-    Compares the creator Dublin Core field to the expected Trutat string.
-    Runs into Unicode problems, going for partial match
-
-    """
-    #creatorField = u"Trutat, Eugéne (1840-1910). Photographe"
-    try:
-        return 'Trutat' in record[1]['creator'][0]
-    except:
-        return False
+    @staticmethod
+    def print_dict(element):
+        """Display the elements of a dictionary."""
+        print "\n".join(["%s %s" % (k, v) for k, v in element.__dict__.items()])
 
 
-def pickle_record(record, directory):
-    """Write an OAI record on disk in a given repository.
+    def is_Trutat(self):
+        """Indicate whether the record is from the Trutat set.
 
-    Serialise the record and name it as the bare ID,
-    do nothing if anything goes wrong
-    (we might want to log that)
+        Compares the creator Dublin Core field to the expected Trutat string.
+        Runs into Unicode problems, going for partial match
 
-    """
-    fileName = join(directory, retrieve_bare_ID(record))
-    print "  Try pickling %s" % fileName
-    try:
-        with open(fileName, 'w') as f:
-            pickle.dump(record, f)
-    except:
-        print "Could not pickle record %s" % (fileName)
+        """
+        #creatorField = u"Trutat, Eugéne (1840-1910). Photographe"
+        try:
+            return 'Trutat' in self.metadata['creator'][0]
+        except:
+            return False
+
+
+    def pickle_record(self, directory):
+        """Write the OAI record on disk in a given repository.
+
+        Serialise the record and name it as the bare ID,
+        do nothing if anything goes wrong
+        (we might want to log that)
+
+        """
+        fileName = join(directory, self.retrieve_bare_ID())
+        print "  Try pickling %s" % fileName
+        try:
+            with open(fileName, 'w') as f:
+                pickle.dump(self, f)
+        except:
+            print "Could not pickle record %s" % (fileName)
