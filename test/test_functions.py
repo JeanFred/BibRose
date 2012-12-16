@@ -6,13 +6,13 @@
 import unittest
 import pickle
 from os.path import join, dirname
-from OaiRecordHandling import *
+from OaiRecord import OaiRecord
 from CommonsFunctions import *
 
 
 class TestOaiRecord(unittest.TestCase):
 
-    """Testing some functions defined in OaiRecord."""
+    """Testing some methods defined in OaiRecord."""
 
     @classmethod
     def setUpClass(cls):
@@ -63,6 +63,11 @@ class TestOaiRecord(unittest.TestCase):
         u'Entr\xe9e des Eaux Bonnes (Basses Pyr\xe9n\xe9es) - Fonds Trutat']
         self.assertListEqual(expected_result,
                              map(build_Commons_title, self.records))
+
+
+class TestVarious(unittest.TestCase):
+
+    """Testing some other methods."""
 
     def test_make_categories(self):
         """Test make_categories."""
