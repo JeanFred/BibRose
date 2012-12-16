@@ -100,16 +100,3 @@ def pickle_record(record, directory):
             pickle.dump(record, f)
     except:
         print "Could not pickle record %s" % (fileName)
-
-
-def retrieve_records_from_disk(directory):
-    """Unpickle all OAI records from a given directory
-
-    If anything bad happens during the reading of the File
-    (file reading error, impossible to pickle), file is ignored.
-    """
-    for fileName in [os.path.join(directory, x) for x in os.listdir(directory)]:
-        try:
-            yield pickle.load(open(fileName, 'r'))
-        except:
-            pass
