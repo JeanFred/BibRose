@@ -12,6 +12,7 @@ sys.path.append('../pywikipedia')
 import wikipedia as pywikibot
 import pywikibot.textlib as textlib
 from OaiRecord import OaiRecord
+from OaiClient import OaiClient
 from MetadataMapper import MetadataMapper
 from CommonsFunctions import *
 from InputOutput import *
@@ -133,25 +134,30 @@ class RecordsProcessing:
 def main():
     """Main entry point."""
     directory = 'ancely'
-    #dump_all_records_from_server(directory, 'general:CL21')
+    #configuration_file = 'oai_servers.cfg'
+    #oaiclient = OaiClient(configuration_file)
+    #oaiclient.dump_all_records_from_server(directory, 'general:CL21')
     #retrieve_metadata_alignments_and_dump_to_file('ancely_alignment')
     #arks = ['ark:/74899/B315556101_CP0004_09_002',
-    #        'ark:/74899/B315556101_CP0004_09_009',
-    #        'ark:/74899/B315556101_CP0004_09_014']
+           #'ark:/74899/B315556101_CP0004_09_009',
+           #'ark:/74899/B315556101_CP0004_09_014']
+    #records = map(oaiserver.get_record_from_ARK, arks)
+    #for record in records:
+        #print records
     processor = RecordsProcessing()
     print "Retrieving records from disk..."
-    processor.records = processor.retrieve_records_from_disk('ancely')
+    processor.records = list(processor.retrieve_records_from_disk('ancely'))
     print "...done"
-    #processor.retrieve_metadata_from_records_for_alignment()
+    processor.retrieve_metadata_from_records_for_alignment()
     print "Retrieving mapping from disk..."
     mapping = pickle.load(open('ancely_alignment', 'r'))
     processor.metadata_mapper = MetadataMapper()
     processor.metadata_mapper.mapper = mapping
     print "...done"
-    print "Processing records..."
+    print "Mapping records..."
     processor.loop_over_and_map()
-    #print "...done"
-    ##records = map(get_record_from_ARK,arks)
+    print "...done"
+    ##
     ##dump_all_records_from_server("records")
 
 
