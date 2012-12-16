@@ -7,7 +7,8 @@ __authors__ = 'User:Jean-Frédéric'
 import os
 import ConfigParser
 import codecs
-
+import wikipedia as pywikibot
+import pywikibot.textlib as textlib
 
 class MetadataMapper:
 
