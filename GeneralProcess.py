@@ -62,27 +62,27 @@ def ignore_field(record_contents, field, alignments=None):
 
 
 FIELDS_PRE_PROCESSING_METHODS = {
-    'publisher' : join_all,
-    'description' : join_all,
-    'format' : get_alignment,
-    'language' : ignore_field,
-    'type' : get_alignment,
-    'rights' : ignore_field,
-    'date' : get_alignment,
-    'relation'  : ignore_field,
-    'source' : join_all,
-    'coverage' : get_alignment,
-    'contributor' : get_alignment,
-    'title' : join_all,
+    'publisher': join_all,
+    'description': join_all,
+    'format': get_alignment,
+    'language': ignore_field,
+    'type': get_alignment,
+    'rights': ignore_field,
+    'date': get_alignment,
+    'relation': ignore_field,
+    'source': join_all,
+    'coverage': get_alignment,
+    'contributor': get_alignment,
+    'title': join_all,
     'identifier': join_all,
-    'subject' : get_alignment,
-    'creator' : get_alignment
+    'subject': get_alignment,
+    'creator': get_alignment
 }
 
 
 class RecordsProcessing:
 
-    """Processing a collection of Records in various ways"""
+    """Processing a collection of Records in various ways."""
 
     def __init__(self):
         pass
@@ -96,7 +96,6 @@ class RecordsProcessing:
                        'creator', 'subject']
         self.record = None
 
-        
     def retrieve_unique_metadata_values(self):
         """Retrieve all metadata values (per field)
 
@@ -117,7 +116,6 @@ class RecordsProcessing:
         for field in self.FIELDS:
             fileName = join('metadata', '%s_list.txt' % field)
             write_set_to_disk(sets[field], fileName)
-
 
     def retrieve_metadata_from_records_for_alignment(self):
         """Retrieve the metadata from the records and write them on disk
@@ -198,7 +196,7 @@ def retrieve_metadata_alignments_and_dump_to_file(fileName):
     except:
         print "Could not pickle aligments"
 
-        
+
 def main():
     """Entry point
     """
@@ -218,7 +216,7 @@ def main():
     #print "...done"
     #print "Processing records..."
     #process_records3(records, alignments)
-    #print "...done"    
+    #print "...done"
     ##records = map(get_record_from_ARK,arks)
     ##dump_all_records_from_server("records")
 
