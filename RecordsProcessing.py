@@ -17,6 +17,8 @@ from MetadataMapper import MetadataMapper
 from CommonsFunctions import *
 from InputOutput import *
 
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 class RecordsProcessing:
 
