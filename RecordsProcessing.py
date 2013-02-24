@@ -112,8 +112,11 @@ class RecordsProcessing:
 
                 #else:  # We do not need to align anything for these fields
                     #pass
-            print textlib.glue_template_and_params(('User:Mk-II/Ancely', record_metadata))
-            print make_categories(record_categories)
+            record_metadata['identifier'] = record.retrieve_bare_ID()
+            record_metadata['url'] = record.get_file_URL()
+            record_metadata['ARK'] = record.retrieve_ARK()
+
+            yield (record_metadata, record_categories)
         pass
 
     def retrieve_records_from_disk(self, directory):
