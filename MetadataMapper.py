@@ -38,8 +38,8 @@ class MetadataMapper:
         Returns a tuple (tag, categories)
 
         """
-        all_value = ""
-        all_categories = []
+        all_value = set()
+        all_categories = set()
         for content in record_contents:
             content = content.strip()
             (value, categories) = self.mapper[field].get(content, ("", []))
