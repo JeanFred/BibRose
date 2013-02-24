@@ -173,6 +173,35 @@ def main():
         print tpl
         print "<nowiki>\n%s\n</nowiki>" % make_categories(record_categories)
         print "...done"
+    categorisation_statistics(all_categories, categories_count_per_file)
+
+
+def categorisation_statistics(all_categories, categories_count_per_file):
+    """Compute statistics on categorisation."""
+    try:
+        import numpy
+
+        print "== Per category =="
+        print "%s categories, %s distincts" % (sum(all_categories.values()),
+                                               len(all_categories))
+        print "Mean: %s" % numpy.mean(all_categories.values())
+        print "Median: %s" % numpy.median(all_categories.values())
+        print "Max %s // Min %s" % (max(all_categories.values()),
+                                    min(all_categories.values()))
+        print "Top 10:"
+        print all_categories.most_common(10)
+        print "Lose 10:"
+        print all_categories.most_common()[-10:]
+
+        print "== Per file =="
+        print "Mean: %s" % numpy.mean(categories_count_per_file.values())
+        print "Median: %s" % numpy.median(categories_count_per_file.values())
+        print "Max %s // Min %s" % (max(categories_count_per_file.values()),
+                                    min(categories_count_per_file.values()))
+        print Counter(categories_count_per_file).most_common(5)
+        print Counter(categories_count_per_file).most_common()[-5:]
+    except ImportError, e:
+        "Numpy is needed to have categorisation statistics."
 
 
 if __name__ == "__main__":
