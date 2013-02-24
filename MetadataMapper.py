@@ -43,9 +43,12 @@ class MetadataMapper:
         for content in record_contents:
             content = content.strip()
             (value, categories) = self.mapper[field].get(content, ("", []))
-            all_value += value
-            all_categories.extend(categories)
-        return (all_value, all_categories)
+            if value:
+                all_value.add(value)
+            if categories:
+                #TODO Handle several categories given in the alignment
+                all_categories.add(categories)
+        return (" - ".join(all_value), all_categories)
 
     def join_all(self, record_contents, field):
         """Join all: returns the concatenation of the alignment values."""
