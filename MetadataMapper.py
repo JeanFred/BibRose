@@ -95,14 +95,17 @@ class MetadataMapper:
         #TODO get wikipage from website?
         print "retrieve_from_wiki " + filename
         wiki_file = os.path.join('wikiin', filename)
-        f = codecs.open(wiki_file, mode='r', encoding='utf-8')
-        all_templates = textlib.extract_templates_and_params(f.read())
-        field_mapper = dict()
-        for x in all_templates:
-            if x[0] == alignment_template:
-                categories = x[1]['categories'].split(']]')[0].split(':')[-1]
-                field_mapper[x[1]['item']] = (x[1]['value'], categories)
-        return field_mapper
+        try:
+            with codecs.open(wiki_file, mode='r', encoding='utf-8') as f:
+                all_templates = textlib.extract_templates_and_params(f.read())
+                field_mapper = dict()
+                for x in all_templates:
+                    if x[0] == alignment_template:
+                        categories = x[1]['categories'].split(']]')[0].split(':')[-1]
+                        field_mapper[x[1]['item']] = (x[1]['value'], categories)
+                return field_mapper
+        except Exception, e:
+            print e
 
     def dump_to_file(self, fileName):
         """Dump the mapper on disk under the given filename."""
