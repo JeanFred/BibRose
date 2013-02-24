@@ -89,10 +89,7 @@ class RecordsProcessing:
     def loop_over_and_map(self):
         """Loop over the record collection and proceeds to the mapping."""
         fields = self.FIELDS
-        recordsbis = list(self.records)[5:50]
-        print "Processing %s records" % len(recordsbis)
-        for record in recordsbis:
-            print "== Processing record"
+        for record in self.records:
             record_metadata = dict()
             record_categories = []
             for field in fields:
