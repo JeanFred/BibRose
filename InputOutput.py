@@ -23,5 +23,6 @@ def write_dict_as_csv(myDict, name, directory):
     def unicode_join_tuple(item):
         return "|".join(map(unicode, item))
 
-    with codecs.open(os.path.join(directory, name + '.csv'), 'w', 'utf-8') as f:
+    filepath = os.path.join(directory, name + '.csv')
+    with codecs.open(filepath, 'w', 'utf-8') as f:
         f.write("\n".join(map(unicode_join_tuple, items)))

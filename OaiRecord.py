@@ -18,6 +18,7 @@ FIELDS = ['publisher', 'description', 'language', 'format', 'type', 'rights',
           'date', 'relation', 'source', 'coverage', 'contributor', 'title',
           'identifier', 'creator', 'subject']
 
+
 class OaiRecord():
 
     def __init__(self, (header, metadata, about)):
@@ -43,12 +44,10 @@ class OaiRecord():
         """
         return self.metadata['relation'][-1].split()[-1][:-11] + '.jpg'
 
-
     def retrieve_ARK(self):
         """Retrieve the ARK of a given OAI record."""
         identifier = self.header.identifier()
         return identifier[string.find(identifier, 'ark'):]
-
 
     def retrieve_bare_ID(self):
         """Retrieve the bare ID of a given OAI record.
@@ -63,11 +62,9 @@ class OaiRecord():
             bare_ID = self.metadata.getMap()['identifier'][1]
         return bare_ID
 
-
     def retrieve_title(self):
         """Retrieve the title."""
         return self.metadata['title'][0].strip()
-
 
     def print_metadata(self):
         """Display the metadata of the record in a not-so-crappy format."""
@@ -78,7 +75,6 @@ class OaiRecord():
     def print_dict(element):
         """Display the elements of a dictionary."""
         print "\n".join(["%s %s" % (k, v) for k, v in element.__dict__.items()])
-
 
     def is_Trutat(self):
         """Indicate whether the record is from the Trutat set.
@@ -92,7 +88,6 @@ class OaiRecord():
             return 'Trutat' in self.metadata['creator'][0]
         except:
             return False
-
 
     def pickle_record(self, directory):
         """Write the OAI record on disk in a given repository.

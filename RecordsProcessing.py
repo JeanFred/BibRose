@@ -20,6 +20,7 @@ from InputOutput import *
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
+
 class RecordsProcessing:
 
     """Processing a collection of Records in various ways."""

@@ -10,6 +10,7 @@ import codecs
 import wikipedia as pywikibot
 import pywikibot.textlib as textlib
 
+
 class MetadataMapper:
 
     """A MetadataMapper maps record content values to (tag, categories) tuple."""
