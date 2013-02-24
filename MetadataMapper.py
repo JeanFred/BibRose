@@ -54,7 +54,7 @@ class MetadataMapper:
         """Join all: returns the concatenation of the alignment values."""
         return ("\n".join(record_contents), [])
 
-    def ignore_field(record_contents, field, alignments=None):
+    def ignore_field(self, record_contents, field, alignments=None):
         """Ignore field, returns an empty tuple."""
         return ("", [])
 
@@ -130,7 +130,7 @@ class MetadataMapper:
             alignment_template = self.alignment_config_items['alignment_template']
             #wikipage = root + field
             wikipage = field
-            alignments[field] = retrieve_from_wiki(wikipage,
+            alignments[field] = self.retrieve_from_wiki(wikipage,
                                                    alignment_template)
         self.mapper = alignments
 
