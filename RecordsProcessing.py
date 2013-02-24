@@ -150,17 +150,29 @@ def main():
     print "Retrieving records from disk..."
     processor.records = list(processor.retrieve_records_from_disk('ancely'))
     print "...done"
-    processor.retrieve_metadata_from_records_for_alignment()
-    print "Retrieving mapping from disk..."
+    #processor.retrieve_metadata_from_records_for_alignment()
+    print "Retrieving mapping from wikipages..."
     mapping = pickle.load(open('ancely_alignment', 'r'))
     processor.metadata_mapper = MetadataMapper()
-    processor.metadata_mapper.mapper = mapping
+    processor.metadata_mapper.retrieve_metadata_alignments(['type', 'coverage', 'creator', 'subject'])
     print "...done"
     print "Mapping records..."
-    processor.loop_over_and_map()
-    print "...done"
-    ##
-    ##dump_all_records_from_server("records")
+
+    from collections import Counter
+    all_categories = Counter()
+    categories_count_per_file = dict()
+
+    for (record_metadata, record_categories) in processor.loop_over_and_map():
+        all_categories.update(record_categories)
+        categories_count_per_file[record_metadata['identifier']] = len(record_categories)
+        print "= %s =" % record_metadata['identifier']
+        template_name = 'User:Jean-Frédéric/Ancely/Ingestion'.encode('utf-8')
+        tpl = textlib.glue_template_and_params((template_name,
+                                                record_metadata))
+        #print "{{collapse|title=%s|1=<pre>\n%s\n</pre>}}" % (record_metadata['identifier'], tpl)
+        print tpl
+        print "<nowiki>\n%s\n</nowiki>" % make_categories(record_categories)
+        print "...done"
 
 
 if __name__ == "__main__":
