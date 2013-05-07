@@ -13,8 +13,8 @@ def build_Commons_title(record):
 
     """
 
-    return "%s - Fonds Trutat" % record.metadata['title'][0].strip()
-
+    return "%s - Fonds Ancely - %s" % (record.metadata['title'][0].strip(),
+                                       record.retrieve_bare_ID())
 
 def make_categories(categories):
     """Build the wikitext for a given list of category names."""

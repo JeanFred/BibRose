@@ -7,7 +7,6 @@ __authors__ = 'User:Jean-Frédéric'
 import os
 import ConfigParser
 import codecs
-import wikipedia as pywikibot
 import pywikibot.textlib as textlib
 
 
@@ -68,11 +67,11 @@ class MetadataMapper:
             'publisher': self.join_all,
             'description': self.join_all,
             'format': self.join_all,
-            'language': self.ignore_field,
+            'language': self.join_all,
             'type': self.get_alignment,
-            'rights': self.ignore_field,
-            'date': self.join_all,
-            'relation': self.ignore_field,
+            'rights': self.join_all,
+            'date': self.get_alignment,
+            'relation': self.join_all,
             'source': self.join_all,
             'coverage': self.get_alignment,
             'contributor': self.join_all,
