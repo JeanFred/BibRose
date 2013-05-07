@@ -6,11 +6,17 @@ __authors__ = 'User:Jean-Frédéric'
 
 import os
 import sys
+import re
 import pickle
+import itertools
 from collections import Counter
-sys.path.append('../pywikipedia')
-import wikipedia as pywikibot
+sys.path.append('../pywikipedia-rewrite')
+sys.path.append('../pywikipedia-rewrite/scripts')
+import pywikibot
 import pywikibot.textlib as textlib
+import upload
+import data_ingestion
+from data_ingestion import Photo, DataIngestionBot
 from OaiRecord import OaiRecord
 from OaiClient import OaiClient
 from MetadataMapper import MetadataMapper
