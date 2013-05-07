@@ -120,10 +120,11 @@ class RecordsProcessing:
                 #else:  # We do not need to align anything for these fields
                     #pass
             record_metadata['identifier'] = record.retrieve_bare_ID()
-            record_metadata['url'] = record.get_file_URL()
             record_metadata['ARK'] = record.retrieve_ARK()
-
-            yield (record_metadata, record_categories)
+            record_metadata['categories'] = make_categories(record_categories)
+            photo = data_ingestion.Photo(URL=record.get_file_URL(),
+                                         metadata=record_metadata)
+            yield photo
         pass
 
     def retrieve_records_from_disk(self, directory):
