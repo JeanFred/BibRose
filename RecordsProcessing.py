@@ -98,7 +98,7 @@ class RecordsProcessing:
         fields = self.FIELDS
         for record in self.records:
             record_metadata = dict()
-            record_categories = []
+            record_categories = set()
             for field in fields:
                 record_metadata_dict = dict()
                 record_contents = record.metadata[field]
@@ -108,7 +108,7 @@ class RecordsProcessing:
                     #print processing_method
                     (value, categories) = processing_method(record_contents, field)
                     record_metadata[field] = value
-                    record_categories.extend(categories)
+                    record_categories.update(categories)
                 else:
                     print "==== Ignored field %s ====" % field
                     print "\n".join(record_contents)
