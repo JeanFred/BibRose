@@ -192,7 +192,8 @@ def main():
 
         #print "...done"
     #categorisation_statistics(all_categories, categories_count_per_file)
-    reader_slice = itertools.islice(reader, 282, 300)
+    reader_slice = itertools.islice(reader, 300, 500)
+    #TODO 285
     uploadBot = CustomDataIngestionBot(reader=reader_slice,
                                      front_titlefmt=front_titlefmt,
                                      rear_titlefmt=rear_titlefmt,
@@ -249,24 +250,21 @@ class CustomDataIngestionBot(DataIngestionBot):
             pywikibot.output(u"Skipping duplicate of %r" % (duplicates, ))
             return duplicates[0]
 
-        title = make_title(photo, self.front_titlefmt, self.rear_titlefmt,
-                           self.variable_titlefmt)
+        title = make_title(photo.metadata, self.front_titlefmt,
+                           self.rear_titlefmt, self.variable_titlefmt)
 
         description = textlib.glue_template_and_params((self.pagefmt,
                                                         photo.metadata))
+        print title
 
-        bot = UploadRobot(url=photo.URL,
-                          description=description,
-                          useFilename=title,
-                          keepFilename=True,
-                          verifyDescription=True,
-                          uploadByUrl=False,
-                          targetSite=self.site)
+        bot = upload.UploadRobot(url = photo.URL,
+                                 description = description,
+                                 useFilename = title,
+                                 keepFilename = True,
+                                 verifyDescription = False,
+                                 targetSite = self.site)
         bot._contents = photo.downloadPhoto().getvalue()
         bot._retrieved = True
-
-        print title
-        print description
         bot.run()
         return title
 
